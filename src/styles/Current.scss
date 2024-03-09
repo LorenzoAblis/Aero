@@ -1,0 +1,145 @@
+@import "../App.scss";
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  .temp {
+    display: flex;
+    gap: 10rem;
+
+    .temp-real {
+      display: flex;
+
+      .temp-icon {
+        font-size: 10rem;
+        height: 100%;
+        background: -webkit-linear-gradient(
+          45deg,
+          hsla(44, 100%, 63%, 1) 0%,
+          hsla(28, 100%, 46%, 1) 100%
+        );
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .temp-text {
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+        margin-left: 2rem;
+
+        h1 {
+          margin: 0;
+          color: $text;
+          font-size: 6rem;
+        }
+
+        p {
+          margin: 0;
+          color: $text-secondary;
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .temp-additional {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      align-items: end;
+
+      .temp-minmax {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+
+        .temp-min,
+        .temp-max {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+
+          i {
+            font-size: 3rem;
+            margin: 0;
+            color: $text-secondary;
+            background-color: rgba(178, 178, 178, 0.1);
+            border-radius: 2rem;
+          }
+
+          .temp-min-text,
+          .temp-max-text {
+            display: flex;
+            flex-direction: column;
+
+            h3 {
+              font-weight: 600;
+              color: $text-secondary;
+              margin: 0;
+            }
+
+            p {
+              margin: 0;
+              color: $text;
+              font-size: 2.5rem;
+              font-weight: 600;
+            }
+          }
+        }
+      }
+
+      .temp-feelslike {
+        color: rgba(255, 120, 120, 0.5);
+        font-size: 1.25rem;
+      }
+    }
+  }
+
+  .conditions {
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+
+    div {
+      display: flex;
+
+      .conditions-card {
+        width: 25%;
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+
+        i {
+          font-size: 1.5rem;
+
+          .rain {
+            color: blue;
+          }
+        }
+
+        .conditions-card-text {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+
+          h3 {
+            margin: 0;
+            color: $text-secondary;
+            font-weight: 500;
+            font-size: 1.2rem;
+          }
+
+          p {
+            margin: 0;
+            color: $text;
+            font-size: 1.5rem;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
+}
