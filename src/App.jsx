@@ -67,13 +67,55 @@ function App() {
     return formattedTime;
   };
 
+  const formatWeeklyWeatherData = () => {
+    setWeeklyWeatherData([]);
+    let minIndex = 1;
+    let maxIndex = minIndex + 5;
+
+    // console.log(rawWeatherData["daily"]["time"][0]);
+
+    while (
+      minIndex <= maxIndex &&
+      minIndex < rawWeatherData["daily"]["time"].length
+    ) {
+      const DayData = {
+        time: rawWeatherData["daily"]["time"][minIndex],
+        // TODO: Fix time so format them to the correct format as shown like 8 AM or Friday 29 july
+      };
+
+      setWeeklyWeatherData((prevData) => [...prevData, DayData]);
+      minIndex += 1;
+    }
+  };
+
+  const formatHourlyWeatherData = () => {
+    setHourlyWeatherData([]);
+    let minIndex = rawWeatherData["hourly"]["time"].indexOf(getDateTime()) + 1;
+    let maxIndex = minIndex + 7;
+
+    while (
+      minIndex <= maxIndex &&
+      minIndex < rawWeatherData["hourly"]["time"].length
+    ) {
+      const HourData = {
+        time: rawWeatherData["hourly"]["time"][minIndex],
+        weather_code: rawWeatherData["hourly"]["weather_code"][minIndex],
+        temp: Math.round(rawWeatherData["hourly"]["temperature_2m"][minIndex]),
+      };
+
+      setHourlyWeatherData((prevData) => [...prevData, HourData]);
+      minIndex += 1;
+    }
+
+    console.log(hourlyWeatherData);
+  };
+
   const formatCurrentWeatherData = () => {
-    let timeIndex = rawWeatherData["hourly"]["time"].indexOf(
-      getDateTime("time")
-    );
+    let timeIndex = rawWeatherData["hourly"]["time"].indexOf(getDateTime());
 
     setCurrentWeatherData((prev) => ({
       ...prev,
+      time: rawWeatherData["hourly"]["time"][timeIndex],
       temp: Math.round(rawWeatherData["hourly"]["temperature_2m"][timeIndex]),
       humidity: rawWeatherData["hourly"]["relative_humidity_2m"][timeIndex],
       feelslike: Math.round(
@@ -102,7 +144,7 @@ function App() {
       <Current />
       <Hourly />
       <Weekly />
-      <button onClick={formatCurrentWeatherData}>Get Weather Data</button>
+      <button onClick={formatWeeklyWeatherData}>Get Weather Data</button>
     </main>
   );
 }
