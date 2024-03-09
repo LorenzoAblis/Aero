@@ -100,8 +100,8 @@ const Current = () => {
           />
           <ConditionCard
             icon="bi bi-wind"
-            title="Gusts"
-            value="434 km/h"
+            title="Air Quality"
+            value="43"
             color="lightgreen"
           />
         </div>
