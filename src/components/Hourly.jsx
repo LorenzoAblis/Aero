@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
 import "../styles/Hourly.scss";
+import * as weatherIcons from "../assets/weatherIcons";
 
 const HourlyCard = ({ time, icon, value }) => {
   return (
     <div className="hourly-card">
       <h3>{time}</h3>
-      <i className={icon}></i>
+      <img src={weatherIcons[icon]} alt="" />
       <p>{value}</p>
     </div>
   );

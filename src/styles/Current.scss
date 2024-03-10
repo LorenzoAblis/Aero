@@ -1,34 +1,29 @@
 @import "../App.scss";
 
-section {
+.current-section {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-top: 0;
 
   .temp {
     display: flex;
-    gap: 25vw;
+    gap: 20vw;
 
     .temp-real {
       display: flex;
+      align-items: center;
+      justify-content: center;
 
-      .temp-icon {
-        font-size: 10rem;
-        height: 100%;
-        background: -webkit-linear-gradient(
-          45deg,
-          hsla(44, 100%, 63%, 1) 0%,
-          hsla(28, 100%, 46%, 1) 100%
-        );
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+      img {
+        width: 15rem;
+        height: 15rem;
+        object-fit: cover;
       }
 
       .temp-text {
         display: flex;
         flex-direction: column;
-        padding: 1.5rem;
-        margin-left: 2rem;
 
         h1 {
           margin: 0;

@@ -1,171 +1,152 @@
 class Utilities {
-    getDateTime = () => {
-        const currentDate = new Date();
+  getDateTime = () => {
+    const currentDate = new Date();
 
-        const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-        const day = String(currentDate.getDate()).padStart(2, "0");
-        const hours = String(currentDate.getHours()).padStart(2, "0");
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const day = String(currentDate.getDate()).padStart(2, "0");
+    const hours = String(currentDate.getHours()).padStart(2, "0");
 
-        return `${year}-${month}-${day}T${hours}:00`;
-    };
+    return `${year}-${month}-${day}T${hours}:00`;
+  };
 
-    getUvClass = (uv) => {
-        switch (Math.round(uv)) {
-            case 1:
-            case 2:
-                return "Low"
-            case 3:
-            case 4:
-            case 5:
-                return "Moderate"
-            case 6:
-            case 7:
-                return "High"
-            case 8:
-            case 9:
-            case 10:
-            case 11:
-                return "Extreme"
-            default:
-                return "None"
-        }
+  getUvClass = (uv) => {
+    switch (Math.round(uv)) {
+      case 1:
+      case 2:
+        return "Low";
+      case 3:
+      case 4:
+      case 5:
+        return "Moderate";
+      case 6:
+      case 7:
+        return "High";
+      case 8:
+      case 9:
+      case 10:
+      case 11:
+        return "Extreme";
+      default:
+        return "None";
     }
+  };
 
-    degreesToDirection = (degrees) => {
-        degrees = (degrees + 360) % 360;
+  degreesToDirection = (degrees) => {
+    degrees = (degrees + 360) % 360;
 
-        let directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-        let index = Math.round(degrees / 45) % 8;
+    let directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+    let index = Math.round(degrees / 45) % 8;
 
-        return directions[index];
-    };
+    return directions[index];
+  };
 
-    convertTimeFormat = (timeString, format) => {
-        const dateTime = new Date(timeString);
+  convertTimeFormat = (timeString, format) => {
+    const dateTime = new Date(timeString);
 
-        if (format === "hh:mm:a") {
-            return dateTime.toLocaleTimeString([], {
-                hour: "numeric",
-                minute: "2-digit",
-                hour12: true,
-            });
-        } else if (format === "hh:a") {
-            return dateTime.toLocaleTimeString([], {
-                hour: "numeric",
-                hour12: true,
-            });
-        } else if (format === "day") {
-            return dateTime.toLocaleDateString("en-US", { weekday: "short" });
-        } else if (format === "date") {
-            const dayNumber = dateTime.getDate();
-            const month = dateTime.toLocaleDateString("en-US", { month: "long" });
-            return `${dayNumber} ${month}`;
-        }
-    };
-
-    convertWeatherCode = (weatherCode, format) => {
-        if (format === "text") {
-            switch (weatherCode) {
-                case 0:
-                    return "Clear sky"
-                case 1:
-                    return "Mainly clear sky"
-                case 2:
-                    return "Partly cloudy sky"
-                case 3:
-                    return "Cloudy sky"
-                case 45:
-                    return "Fog"
-                case 48:
-                    return "Cold fog"
-                case 51:
-                    return "Light drizzle"
-                case 53:
-                    return "Moderate drizzle"
-                case 55:
-                    return "Heavy drizzle"
-                case 56:
-                    return "Light freezing drizzle"
-                case 57:
-                    return "Heavy freezing drizzle"
-                case 61:
-                    return "Slight rain"
-                case 63:
-                    return "Moderate rain"
-                case 65:
-                    return "Heavy rain"
-                case 66:
-                    return "Light freezing rain"
-                case 67:
-                    return "Heavy freezing rain"
-                case 71:
-                    return "Slight snow fall"
-                case 73:
-                    return "Moderate snow fall"
-                case 75:
-                    return "Heavy snow fall"
-                case 77:
-                    return "Snow grains"
-                case 80:
-                    return "Slight rain showers"
-                case 81:
-                    return "Moderate rain showers"
-                case 82:
-                    return "Heavy rain showers"
-                case 85:
-                    return "Slight snow showers"
-                case 86:
-                    return "Heavy snow showers"
-                case 95:
-                    return "Thunderstorm"
-                default:
-                    return "Unknown"
-            }
-        } else {
-            switch (weatherCode) {
-                case 0:
-                    return "bi bi-brightness-high-fill"
-                case 1:
-                case 2:
-                    return "bi bi-cloud-sun-fill"
-                case 3:
-                    return "bi bi-cloud-fill"
-                case 45:
-                case 48:
-                    return "bi bi-cloud-fog-fill"
-                case 51:
-                case 53:
-                case 55:
-                case 56:
-                case 57:
-                    return "bi bi-cloud-drizzle-fill"
-                case 61:
-                case 63:
-                case 65:
-                case 66:
-                case 67:
-                    return "bi bi-cloud-rain-heavy-fill"
-                case 71:
-                case 73:
-                case 75:
-                case 77:
-                    return "bi bi-cloud-snow-fill"
-                case 80:
-                    return "bi bi-cloud-rain-fill"
-                case 81:
-                case 82:
-                    return "bi bi-cloud-rain-fill"
-                case 85:
-                case 86:
-                    return "bi bi-cloud-snow-fill"
-                case 95:
-                    return "bi bi-cloud-lightning-rain-fill"
-                default:
-                    return "bi bi-question-lg"
-            }
-        }
+    if (format === "hh:mm:a") {
+      return dateTime.toLocaleTimeString([], {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    } else if (format === "hh:a") {
+      return dateTime.toLocaleTimeString([], {
+        hour: "numeric",
+        hour12: true,
+      });
+    } else if (format === "day") {
+      return dateTime.toLocaleDateString("en-US", { weekday: "short" });
+    } else if (format === "date") {
+      const dayNumber = dateTime.getDate();
+      const month = dateTime.toLocaleDateString("en-US", { month: "long" });
+      return `${dayNumber} ${month}`;
     }
+  };
+
+  classifyAQI = (aqi) => {
+    if (aqi >= 0 && aqi <= 50) {
+      return "Good";
+    } else if (aqi >= 51 && aqi <= 100) {
+      return "Moderate";
+    } else if (aqi >= 101 && aqi <= 150) {
+      return "Unhealthy for Sensitive Groups";
+    } else if (aqi >= 151 && aqi <= 200) {
+      return "Unhealthy";
+    } else if (aqi >= 201 && aqi <= 300) {
+      return "Very Unhealthy";
+    } else if (aqi >= 301 && aqi <= 500) {
+      return "Hazardous";
+    } else {
+      return "Invalid AQI value";
+    }
+  };
+
+  convertWeatherCode = (weatherCode, format) => {
+    const icons = {
+      0: "sunny",
+      1: "cloudy1",
+      2: "cloudy2",
+      3: "cloudy3",
+      45: "cloudy3",
+      48: "cloudy3",
+      51: "rainy4",
+      53: "rainy4",
+      55: "rainy4",
+      56: "rainy4",
+      57: "rainy4",
+      61: "rainy5",
+      63: "rainy6",
+      65: "rainy7",
+      66: "rain5",
+      67: "rainy7",
+      71: "snowy4",
+      73: "snowy5",
+      75: "snowy6",
+      77: "snowy5",
+      80: "rainy5",
+      81: "rainy6",
+      82: "rainy7",
+      85: "snowy-4",
+      86: "snowy-6",
+      95: "thunder",
+    };
+
+    const textDescriptions = {
+      0: "Clear sky",
+      1: "Mainly clear sky",
+      2: "Partly cloudy sky",
+      3: "Cloudy sky",
+      45: "Fog",
+      48: "Cold fog",
+      51: "Light drizzle",
+      53: "Moderate drizzle",
+      55: "Heavy drizzle",
+      56: "Light freezing drizzle",
+      57: "Heavy freezing drizzle",
+      61: "Slight rain",
+      63: "Moderate rain",
+      65: "Heavy rain",
+      66: "Light freezing rain",
+      67: "Heavy freezing rain",
+      71: "Slight snow fall",
+      73: "Moderate snow fall",
+      75: "Heavy snow fall",
+      77: "Snow grains",
+      80: "Slight rain showers",
+      81: "Moderate rain showers",
+      82: "Heavy rain showers",
+      85: "Slight snow showers",
+      86: "Heavy snow showers",
+      95: "Thunderstorm",
+    };
+
+    if (format === "text") {
+      return textDescriptions[weatherCode] || "Unknown";
+    } else {
+      return icons[weatherCode] || "bi bi-question-lg";
+    }
+  };
 }
 
 export default Utilities;

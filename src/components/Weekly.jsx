@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import "../styles/Weekly.scss";
+import * as weatherIcons from "../assets/weatherIcons";
 
 const WeeklyCard = ({ icon, day, date, min, max }) => {
   return (
     <div className="weekly-card">
-      <i className={icon}></i>
+      <img src={weatherIcons[icon]} alt="" />
       <div className="weekly-card-text">
         <div className="weekly-card-text-header">
           <h3>{day}</h3>

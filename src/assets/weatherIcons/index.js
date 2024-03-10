@@ -1,0 +1,12 @@
+export { default as sunny } from "./day.svg";
+export { default as cloudy1 } from "./cloudy-day-1.svg";
+export { default as cloudy2 } from "./cloudy-day-2.svg";
+export { default as cloudy3 } from "./cloudy-day-3.svg";
+export { default as rainy4 } from "./rainy-4.svg";
+export { default as rainy5 } from "./rainy-5.svg";
+export { default as rainy6 } from "./rainy-6.svg";
+export { default as rainy7 } from "./rainy-7.svg";
+export { default as snowy4 } from "./snowy-4.svg";
+export { default as snowy5 } from "./snowy-5.svg";
+export { default as snowy6 } from "./snowy-6.svg";
+export { default as thunder } from "./thunder.svg";
