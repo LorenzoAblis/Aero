@@ -83,7 +83,7 @@ const Current = ({ data }) => {
           <ConditionCard
             icon="bi bi-brightness-low-fill"
             title="UV Index"
-            value={`${data.uv}`}
+            value={`${data.uv} ${data.uvClass}`}
             color="pink"
           />
           <ConditionCard
@@ -103,7 +103,7 @@ const Current = ({ data }) => {
             title="Air Quality"
             value="43"
             color="lightgreen"
-            // TODO: Get air quality
+          // TODO: Get air quality
           />
         </div>
       </div>

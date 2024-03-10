@@ -42,7 +42,7 @@ const Weekly = ({ data }) => {
           {data.slice(0, 3).map((hour, index) => (
             <WeeklyCard
               key={index + 3}
-              icon="bi bi-cloud-fill"
+              icon={hour.weather_code_icon}
               day={hour.day}
               date={hour.date}
               min={hour.temp_min}
@@ -54,7 +54,7 @@ const Weekly = ({ data }) => {
           {data.slice(3).map((hour, index) => (
             <WeeklyCard
               key={index + 3}
-              icon="bi bi-cloud-fill"
+              icon={hour.weather_code_icon}
               day={hour.day}
               date={hour.date}
               min={hour.temp_min}

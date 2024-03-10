@@ -26,7 +26,7 @@ const Hourly = ({ data }) => {
           <HourlyCard
             key={index}
             time={hour.time}
-            icon="bi bi-brightness-high-fill"
+            icon={hour.weather_code_icon}
             value={`${hour.temp}°`}
           />
         ))}
