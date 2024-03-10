@@ -20,15 +20,15 @@ ConditionCard.propTypes = {
   color: PropTypes.string.isRequired,
 };
 
-const Current = () => {
+const Current = ({ data }) => {
   return (
     <section>
       <div className="temp">
         <div className="temp-real">
           <i className="bi bi-sun-fill temp-icon"></i>
           <div className="temp-text">
-            <h1>26°</h1>
-            <p>Clear skies, possible cyclones</p>
+            <h1>{data.temp}°</h1>
+            <p>{data.weather_code}</p>
           </div>
         </div>
         <div className="temp-additional">
@@ -37,18 +37,18 @@ const Current = () => {
               <i className="bi bi-arrow-down-short"></i>
               <div className="temp-min-text">
                 <h3>Min</h3>
-                <p>23°</p>
+                <p>{data.temp_min}°</p>
               </div>
             </div>
             <div className="temp-max">
               <i className="bi bi-arrow-up-short"></i>
               <div className="temp-max-text">
                 <h3>Max</h3>
-                <p>30°</p>
+                <p>{data.temp_max}°</p>
               </div>
             </div>
           </div>
-          <p className="temp-feelslike">Feels like 25°</p>
+          <p className="temp-feelslike">Feels like {data.feelslike}°</p>
         </div>
       </div>
 
@@ -57,25 +57,25 @@ const Current = () => {
           <ConditionCard
             icon="bi bi-cloud-drizzle-fill"
             title="Chance of rain"
-            value="14%"
+            value={`${data.precip}%`}
             color="lightblue"
           />
           <ConditionCard
             icon="bi bi-arrow-up-left-circle-fill"
             title="Wind"
-            value="311 km/h"
+            value={`${data.wind_speed} mph ${data.wind_direction}`}
             color="lightgray"
           />
           <ConditionCard
             icon="bi bi-sunrise-fill"
             title="Sunrise"
-            value="5:47 PM"
+            value={data.sunrise}
             color="orange"
           />
           <ConditionCard
             icon="bi bi-sunset-fill"
             title="Sunset"
-            value="8:16 AM"
+            value={data.sunset}
             color="purple"
           />
         </div>
@@ -83,19 +83,19 @@ const Current = () => {
           <ConditionCard
             icon="bi bi-brightness-low-fill"
             title="UV Index"
-            value="1.2"
+            value={`${data.uv}`}
             color="pink"
           />
           <ConditionCard
             icon="bi bi-graph-up-arrow"
             title="Pressure"
-            value="952 hPa"
+            value={`${data.pressure} hPa`}
             color="magenta"
           />
           <ConditionCard
             icon="bi bi-droplet-fill"
             title="Humidity"
-            value="98%"
+            value={`${data.humidity}%`}
             color="lightblue"
           />
           <ConditionCard
@@ -103,11 +103,16 @@ const Current = () => {
             title="Air Quality"
             value="43"
             color="lightgreen"
+            // TODO: Get air quality
           />
         </div>
       </div>
     </section>
   );
+};
+
+Current.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 
 export default Current;

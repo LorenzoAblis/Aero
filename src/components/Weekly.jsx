@@ -33,60 +33,42 @@ WeeklyCard.propTypes = {
   max: PropTypes.string.isRequired,
 };
 
-const Weekly = () => {
+const Weekly = ({ data }) => {
   return (
     <section>
       <h2>This week</h2>
       <div className="weekly-cards">
         <div>
-          <WeeklyCard
-            icon="bi bi-cloud-fill"
-            day="FRI"
-            date="29 JULY"
-            min="24"
-            max="34"
-          />
-          <WeeklyCard
-            icon="bi bi-cloud-fill"
-            day="FRI"
-            date="29 JULY"
-            min="24"
-            max="34"
-          />
-          <WeeklyCard
-            icon="bi bi-cloud-fill"
-            day="FRI"
-            date="29 JULY"
-            min="24"
-            max="34"
-          />
+          {data.slice(0, 3).map((hour, index) => (
+            <WeeklyCard
+              key={index + 3}
+              icon="bi bi-cloud-fill"
+              day={hour.day}
+              date={hour.date}
+              min={hour.temp_min}
+              max={hour.temp_max}
+            />
+          ))}
         </div>
         <div>
-          <WeeklyCard
-            icon="bi bi-cloud-fill"
-            day="FRI"
-            date="29 JULY"
-            min="24"
-            max="34"
-          />
-          <WeeklyCard
-            icon="bi bi-cloud-fill"
-            day="FRI"
-            date="29 JULY"
-            min="24"
-            max="34"
-          />
-          <WeeklyCard
-            icon="bi bi-cloud-fill"
-            day="FRI"
-            date="29 JULY"
-            min="24"
-            max="34"
-          />
+          {data.slice(3).map((hour, index) => (
+            <WeeklyCard
+              key={index + 3}
+              icon="bi bi-cloud-fill"
+              day={hour.day}
+              date={hour.date}
+              min={hour.temp_min}
+              max={hour.temp_max}
+            />
+          ))}
         </div>
       </div>
     </section>
   );
+};
+
+Weekly.propTypes = {
+  data: PropTypes.array.isRequired,
 };
 
 export default Weekly;

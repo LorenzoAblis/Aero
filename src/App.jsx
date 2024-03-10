@@ -8,7 +8,7 @@ import Weekly from "./components/Weekly.jsx";
 //https://api.open-meteo.com/v1/forecast?latitude=42.0664&longitude=-87.9373&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FChicago
 
 function App() {
-  let apiUrl =
+  let weatherApiUrl =
     "https://api.open-meteo.com/v1/forecast?latitude=42.0664&longitude=-87.9373&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FChicago";
 
   const [rawWeatherData, setRawWeatherData] = useState(null);
@@ -19,21 +19,21 @@ function App() {
 
   const fetchWeatherData = async () => {
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch(weatherApiUrl);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
       setRawWeatherData(data);
       console.log("Weather data fetched successfully");
+
+      formatWeeklyWeatherData();
+      formatHourlyWeatherData();
+      formatCurrentWeatherData();
     } catch (error) {
       console.error("Error:", error);
     }
   };
-
-  useEffect(() => {
-    fetchWeatherData();
-  }, []);
 
   const getDateTime = () => {
     const currentDate = new Date();
@@ -55,16 +55,27 @@ function App() {
     return directions[index];
   };
 
-  const convertTimeFormat = (timeString) => {
+  const convertTimeFormat = (timeString, format) => {
     const dateTime = new Date(timeString);
 
-    const formattedTime = dateTime.toLocaleTimeString([], {
-      hour: "numeric",
-      minute: "2-digit",
-      hour12: true,
-    });
-
-    return formattedTime;
+    if (format === "hh:mm:a") {
+      return dateTime.toLocaleTimeString([], {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true,
+      });
+    } else if (format === "hh:a") {
+      return dateTime.toLocaleTimeString([], {
+        hour: "numeric",
+        hour12: true,
+      });
+    } else if (format === "day") {
+      return dateTime.toLocaleDateString("en-US", { weekday: "short" });
+    } else if (format === "date") {
+      const dayNumber = dateTime.getDate();
+      const month = dateTime.toLocaleDateString("en-US", { month: "long" });
+      return `${dayNumber} ${month}`;
+    }
   };
 
   const formatWeeklyWeatherData = () => {
@@ -72,15 +83,25 @@ function App() {
     let minIndex = 1;
     let maxIndex = minIndex + 5;
 
-    // console.log(rawWeatherData["daily"]["time"][0]);
-
     while (
       minIndex <= maxIndex &&
       minIndex < rawWeatherData["daily"]["time"].length
     ) {
       const DayData = {
-        time: rawWeatherData["daily"]["time"][minIndex],
-        // TODO: Fix time so format them to the correct format as shown like 8 AM or Friday 29 july
+        day: convertTimeFormat(
+          rawWeatherData["daily"]["time"][minIndex],
+          "day"
+        ),
+        date: convertTimeFormat(
+          rawWeatherData["daily"]["time"][minIndex],
+          "date"
+        ),
+        temp_min: Math.round(
+          rawWeatherData["daily"]["temperature_2m_min"][minIndex]
+        ),
+        temp_max: Math.round(
+          rawWeatherData["daily"]["temperature_2m_max"][minIndex]
+        ),
       };
 
       setWeeklyWeatherData((prevData) => [...prevData, DayData]);
@@ -98,7 +119,10 @@ function App() {
       minIndex < rawWeatherData["hourly"]["time"].length
     ) {
       const HourData = {
-        time: rawWeatherData["hourly"]["time"][minIndex],
+        time: convertTimeFormat(
+          rawWeatherData["hourly"]["time"][minIndex],
+          "hh:a"
+        ),
         weather_code: rawWeatherData["hourly"]["weather_code"][minIndex],
         temp: Math.round(rawWeatherData["hourly"]["temperature_2m"][minIndex]),
       };
@@ -106,8 +130,6 @@ function App() {
       setHourlyWeatherData((prevData) => [...prevData, HourData]);
       minIndex += 1;
     }
-
-    console.log(hourlyWeatherData);
   };
 
   const formatCurrentWeatherData = () => {
@@ -115,7 +137,6 @@ function App() {
 
     setCurrentWeatherData((prev) => ({
       ...prev,
-      time: rawWeatherData["hourly"]["time"][timeIndex],
       temp: Math.round(rawWeatherData["hourly"]["temperature_2m"][timeIndex]),
       humidity: rawWeatherData["hourly"]["relative_humidity_2m"][timeIndex],
       feelslike: Math.round(
@@ -133,18 +154,27 @@ function App() {
       ),
       temp_max: Math.round(rawWeatherData["daily"]["temperature_2m_max"][0]),
       temp_min: Math.round(rawWeatherData["daily"]["temperature_2m_min"][0]),
-      sunrise: convertTimeFormat(rawWeatherData["daily"]["sunrise"][0]),
-      sunset: convertTimeFormat(rawWeatherData["daily"]["sunset"][0]),
+      sunrise: convertTimeFormat(
+        rawWeatherData["daily"]["sunrise"][0],
+        "hh:mm:a"
+      ),
+      sunset: convertTimeFormat(
+        rawWeatherData["daily"]["sunset"][0],
+        "hh:mm:a"
+      ),
       uv: rawWeatherData["daily"]["uv_index_max"][0],
     }));
   };
 
+  useEffect(() => {
+    fetchWeatherData();
+  }, []);
+
   return (
     <main>
-      <Current />
-      <Hourly />
-      <Weekly />
-      <button onClick={formatWeeklyWeatherData}>Get Weather Data</button>
+      {currentWeatherData && <Current data={currentWeatherData} />}
+      {hourlyWeatherData.length > 0 && <Hourly data={hourlyWeatherData} />}
+      {weeklyWeatherData.length > 0 && <Weekly data={weeklyWeatherData} />}
     </main>
   );
 }

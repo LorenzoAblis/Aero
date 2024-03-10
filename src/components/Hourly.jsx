@@ -17,22 +17,26 @@ HourlyCard.propTypes = {
   value: PropTypes.string.isRequired,
 };
 
-const Hourly = () => {
+const Hourly = ({ data }) => {
   return (
     <section>
       <h2>Hourly</h2>
       <div className="hourly-cards">
-        <HourlyCard time="8 AM" icon="bi bi-brightness-high-fill" value="26°" />
-        <HourlyCard time="8 AM" icon="bi bi-brightness-high-fill" value="26°" />
-        <HourlyCard time="8 AM" icon="bi bi-brightness-high-fill" value="26°" />
-        <HourlyCard time="8 AM" icon="bi bi-brightness-high-fill" value="26°" />
-        <HourlyCard time="8 AM" icon="bi bi-brightness-high-fill" value="26°" />
-        <HourlyCard time="8 AM" icon="bi bi-brightness-high-fill" value="26°" />
-        <HourlyCard time="8 AM" icon="bi bi-brightness-high-fill" value="26°" />
-        <HourlyCard time="8 AM" icon="bi bi-brightness-high-fill" value="26°" />
+        {data.map((hour, index) => (
+          <HourlyCard
+            key={index}
+            time={hour.time}
+            icon="bi bi-brightness-high-fill"
+            value={`${hour.temp}°`}
+          />
+        ))}
       </div>
     </section>
   );
+};
+
+Hourly.propTypes = {
+  data: PropTypes.array.isRequired,
 };
 
 export default Hourly;
