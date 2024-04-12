@@ -2,16 +2,19 @@ import Utilities from "../utils/Utilities";
 
 class AirQualityService {
   constructor() {
-    this.airQualityApiUrl =
-      "https://air-quality-api.open-meteo.com/v1/air-quality?latitude=52.52&longitude=13.41&hourly=us_aqi&domains=cams_global";
     this.rawAirQualityData = null;
     this.currentAirQualityData = null;
     this.utils = new Utilities();
   }
 
-  fetchAirQualityData = async () => {
+  fetchAirQualityData = async (selectedLocation) => {
     try {
-      const response = await fetch(this.airQualityApiUrl);
+      const latitude = selectedLocation?.lat || 39.8283;
+      const longitude = selectedLocation?.long || -98.5795;
+
+      console.log("aqi", selectedLocation?.lat, selectedLocation?.long);
+
+      const response = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&domains=cams_global`);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

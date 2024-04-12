@@ -10,3 +10,4 @@ export { default as snowy4 } from "./snowy-4.svg";
 export { default as snowy5 } from "./snowy-5.svg";
 export { default as snowy6 } from "./snowy-6.svg";
 export { default as thunder } from "./thunder.svg";
+export { default as preloader } from "../preloader.svg";

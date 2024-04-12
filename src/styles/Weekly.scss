@@ -7,6 +7,7 @@ section {
   .weekly-cards {
     display: flex;
     flex-direction: column;
+    margin-bottom: 5vh;
     gap: 2rem;
 
     div {
@@ -20,7 +21,7 @@ section {
         background-color: rgba(178, 178, 178, 0.1);
         padding: 2rem;
         border-radius: 2rem;
-
+        width: 26%;
         i {
           color: $text;
           font-size: 5rem;

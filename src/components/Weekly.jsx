@@ -30,8 +30,8 @@ WeeklyCard.propTypes = {
   icon: PropTypes.string.isRequired,
   day: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
-  min: PropTypes.string.isRequired,
-  max: PropTypes.string.isRequired,
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
 };
 
 const Weekly = ({ data }) => {
