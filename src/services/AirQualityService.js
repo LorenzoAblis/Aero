@@ -12,9 +12,9 @@ class AirQualityService {
       const latitude = selectedLocation?.lat || 39.8283;
       const longitude = selectedLocation?.long || -98.5795;
 
-      console.log("aqi", selectedLocation?.lat, selectedLocation?.long);
-
-      const response = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&domains=cams_global`);
+      const response = await fetch(
+        `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&hourly=us_aqi&domains=cams_global`
+      );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }

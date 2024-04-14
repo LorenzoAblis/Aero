@@ -14,10 +14,8 @@ class WeatherService {
       let latitude = selectedLocation?.lat;
       let longitude = selectedLocation?.long;
 
-      console.log("Weather", selectedLocation?.lat, selectedLocation?.long);
-
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FChicago`,
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=America%2FChicago`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -45,21 +43,21 @@ class WeatherService {
       const DayData = {
         day: this.utils.convertTimeFormat(
           this.rawWeatherData["daily"]["time"][minIndex],
-          "day",
+          "day"
         ),
         date: this.utils.convertTimeFormat(
           this.rawWeatherData["daily"]["time"][minIndex],
-          "date",
+          "date"
         ),
         temp_min: Math.round(
-          this.rawWeatherData["daily"]["temperature_2m_min"][minIndex],
+          this.rawWeatherData["daily"]["temperature_2m_min"][minIndex]
         ),
         temp_max: Math.round(
-          this.rawWeatherData["daily"]["temperature_2m_max"][minIndex],
+          this.rawWeatherData["daily"]["temperature_2m_max"][minIndex]
         ),
         weather_code_icon: this.utils.convertWeatherCode(
           this.rawWeatherData["daily"]["weather_code"][minIndex],
-          "logo",
+          "logo"
         ),
       };
 
@@ -82,14 +80,14 @@ class WeatherService {
       const HourData = {
         time: this.utils.convertTimeFormat(
           this.rawWeatherData["hourly"]["time"][minIndex],
-          "hh:a",
+          "hh:a"
         ),
         weather_code_icon: this.utils.convertWeatherCode(
           this.rawWeatherData["hourly"]["weather_code"][minIndex],
-          "icon",
+          "icon"
         ),
         temp: Math.round(
-          this.rawWeatherData["hourly"]["temperature_2m"][minIndex],
+          this.rawWeatherData["hourly"]["temperature_2m"][minIndex]
         ),
       };
 
@@ -100,54 +98,54 @@ class WeatherService {
 
   formatCurrentWeatherData = () => {
     let timeIndex = this.rawWeatherData["hourly"]["time"].indexOf(
-      this.utils.getDateTime(),
+      this.utils.getDateTime()
     );
 
     this.currentWeatherData = {
       temp: Math.round(
-        this.rawWeatherData["hourly"]["temperature_2m"][timeIndex],
+        this.rawWeatherData["hourly"]["temperature_2m"][timeIndex]
       ),
       humidity:
         this.rawWeatherData["hourly"]["relative_humidity_2m"][timeIndex],
       feelslike: Math.round(
-        this.rawWeatherData["hourly"]["apparent_temperature"][timeIndex],
+        this.rawWeatherData["hourly"]["apparent_temperature"][timeIndex]
       ),
       precip:
         this.rawWeatherData["hourly"]["precipitation_probability"][timeIndex],
       pressure: Math.round(
-        this.rawWeatherData["hourly"]["surface_pressure"][timeIndex],
+        this.rawWeatherData["hourly"]["surface_pressure"][timeIndex]
       ),
       wind_speed: Math.round(
-        this.rawWeatherData["hourly"]["wind_speed_10m"][timeIndex],
+        this.rawWeatherData["hourly"]["wind_speed_10m"][timeIndex]
       ),
       wind_direction: this.utils.degreesToDirection(
-        this.rawWeatherData["hourly"]["wind_direction_10m"][timeIndex],
+        this.rawWeatherData["hourly"]["wind_direction_10m"][timeIndex]
       ),
       temp_max: Math.round(
-        this.rawWeatherData["daily"]["temperature_2m_max"][0],
+        this.rawWeatherData["daily"]["temperature_2m_max"][0]
       ),
       temp_min: Math.round(
-        this.rawWeatherData["daily"]["temperature_2m_min"][0],
+        this.rawWeatherData["daily"]["temperature_2m_min"][0]
       ),
       sunrise: this.utils.convertTimeFormat(
         this.rawWeatherData["daily"]["sunrise"][0],
-        "hh:mm:a",
+        "hh:mm:a"
       ),
       sunset: this.utils.convertTimeFormat(
         this.rawWeatherData["daily"]["sunset"][0],
-        "hh:mm:a",
+        "hh:mm:a"
       ),
       uv: this.rawWeatherData["daily"]["uv_index_max"][0],
       uvClass: this.utils.getUvClass(
-        this.rawWeatherData["daily"]["uv_index_max"][0],
+        this.rawWeatherData["daily"]["uv_index_max"][0]
       ),
       weather_code: this.utils.convertWeatherCode(
         this.rawWeatherData["daily"]["weather_code"][0],
-        "text",
+        "text"
       ),
       weather_code_icon: this.utils.convertWeatherCode(
         this.rawWeatherData["daily"]["weather_code"][0],
-        "icon",
+        "icon"
       ),
     };
   };

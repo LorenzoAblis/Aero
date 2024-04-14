@@ -1,6 +1,41 @@
 @import "../App.scss";
 
-aside {
+.hide-menu {
+  @keyframes hideMenu {
+    0% {
+      opacity: 1;
+      z-index: 100;
+      transform: translateX(0%);
+      display: flex;
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(-100%);
+      display: none;
+    }
+  }
+
+  animation: hideMenu 0.5s forwards;
+}
+
+.show-menu {
+  @keyframes showMenu {
+    0% {
+      opacity: 0;
+      transform: translateX(-100%);
+      display: none;
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0%);
+      display: flex;
+    }
+  }
+
+  animation: showMenu 0.5s forwards;
+}
+
+.menu-aside {
   display: flex;
   width: 25vw;
   height: 100vh;
@@ -8,7 +43,7 @@ aside {
   position: fixed;
   left: 0%;
   top: 0%;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.65);
   box-shadow: 0 0 2rem rgba(0, 0, 0, 0.7);
   opacity: 1;
   backdrop-filter: blur(5px);
@@ -70,6 +105,10 @@ aside {
         &:hover {
           color: white;
         }
+      }
+
+      button {
+        font-size: 1.25rem;
       }
     }
   }

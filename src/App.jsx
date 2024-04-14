@@ -16,7 +16,9 @@ function App() {
   const [weeklyWeatherData, setWeeklyWeatherData] = useState([]);
   const [airQualityData, setAirQualityData] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
-  const [query, setQuery] = useState(null);
+  const [query, setQuery] = useState("");
+  const [savedLocations, setSavedLocations] = useState([]);
+  const [showMenu, setShowMenu] = useState(false);
 
   const weatherService = new WeatherService();
   const airQualityService = new AirQualityService();
@@ -53,6 +55,20 @@ function App() {
     }
   };
 
+  const fetchSavedLocations = () => {
+    const storedLocationsJSON = localStorage.getItem("locations");
+    const storedLocations = storedLocationsJSON
+      ? JSON.parse(storedLocationsJSON).locations
+      : [];
+    setSavedLocations(storedLocations);
+  };
+
+  const handleOutsideClick = (event) => {
+    if (!event.target.closest(".menu")) {
+      setShowMenu(false);
+    }
+  };
+
   useEffect(() => {
     getUserLocation();
   }, []);
@@ -63,16 +79,16 @@ function App() {
 
   return (
     <>
-      <main>
+      <main onClick={handleOutsideClick}>
         <Search
           setSelectedLocation={setSelectedLocation}
-          setCurrentWeatherData={setCurrentWeatherData}
-          setHourlyWeatherData={setHourlyWeatherData}
-          setWeeklyWeatherData={setWeeklyWeatherData}
-          setAirQualityData={setAirQualityData}
           query={query}
           setQuery={setQuery}
           selectedLocation={selectedLocation}
+          fetchSavedLocations={fetchSavedLocations}
+          setSavedLocations={setSavedLocations}
+          savedLocations={savedLocations}
+          setShowMenu={setShowMenu}
         />
         {currentWeatherData && (
           <Current
@@ -84,7 +100,13 @@ function App() {
         {weeklyWeatherData.length > 0 && <Weekly data={weeklyWeatherData} />}
         {!currentWeatherData && <img src={preloader} className="preloader" />}
       </main>
-      <Menu setSelectedLocation={setSelectedLocation} />
+      <Menu
+        setSelectedLocation={setSelectedLocation}
+        savedLocations={savedLocations}
+        setSavedLocations={setSavedLocations}
+        fetchSavedLocations={fetchSavedLocations}
+        showMenu={showMenu}
+      />
     </>
   );
 }

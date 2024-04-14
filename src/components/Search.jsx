@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import SearchService from "../services/SearchService";
 
@@ -9,10 +9,28 @@ const Search = ({
   query,
   setQuery,
   selectedLocation,
+  fetchSavedLocations,
+  setSavedLocations,
+  savedLocations,
+  setShowMenu,
 }) => {
   const searchService = new SearchService();
 
   const [searchData, setSearchData] = useState([]);
+  const [isSavedLocation, setIsSavedLocation] = useState(false);
+
+  const checkSaveState = () => {
+    if (selectedLocation) {
+      const isSaved = savedLocations.some(
+        (location) =>
+          location.lat === selectedLocation.lat &&
+          location.long === selectedLocation.long
+      );
+      setIsSavedLocation(isSaved);
+    } else {
+      setIsSavedLocation(false);
+    }
+  };
 
   const handleKeyDown = async (event) => {
     if (event.key === "Enter") {
@@ -29,17 +47,14 @@ const Search = ({
   };
 
   const handleBookmark = () => {
-
     const storedLocationsJSON = localStorage.getItem("locations");
     const storedLocations = storedLocationsJSON
       ? JSON.parse(storedLocationsJSON)
       : { locations: [] };
 
-
     const existingIndex = storedLocations.locations.findIndex(
       (location) => location.address === selectedLocation.address
     );
-
 
     if (existingIndex !== -1) {
       storedLocations.locations.splice(existingIndex, 1);
@@ -49,8 +64,9 @@ const Search = ({
 
     const updatedLocationsJSON = JSON.stringify(storedLocations);
     localStorage.setItem("locations", updatedLocationsJSON);
-  };
 
+    setSavedLocations(storedLocations.locations);
+  };
 
   const getAddress = () => {
     if (selectedLocation != null) {
@@ -58,10 +74,18 @@ const Search = ({
     }
   };
 
+  useEffect(() => {
+    fetchSavedLocations();
+  }, []);
+
+  useEffect(() => {
+    checkSaveState();
+  }, [selectedLocation, savedLocations]);
+
   return (
     <section>
       <div className="navbar">
-        <i className="bi bi-list menu"></i>
+        <i className="bi bi-list menu" onClick={() => setShowMenu(true)}></i>
         <div className="search-bar">
           <i className="bi bi-search"></i>
           <input
@@ -91,7 +115,11 @@ const Search = ({
       <div className="location">
         <h1>{getAddress()}</h1>
         <button onClick={handleBookmark}>
-          <i className="bi bi-bookmark"></i>
+          {isSavedLocation ? (
+            <i className="bi bi-bookmark-fill filled"></i>
+          ) : (
+            <i className="bi bi-bookmark"></i>
+          )}
         </button>
       </div>
     </section>
@@ -103,6 +131,10 @@ Search.propTypes = {
   query: PropTypes.string,
   setQuery: PropTypes.func.isRequired,
   selectedLocation: PropTypes.object,
+  fetchSavedLocations: PropTypes.func.isRequired,
+  setSavedLocations: PropTypes.func.isRequired,
+  savedLocations: PropTypes.array.isRequired,
+  setShowMenu: PropTypes.func.isRequired,
 };
 
 export default Search;
