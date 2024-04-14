@@ -8,6 +8,7 @@ import Search from "./components/Search.jsx";
 import Current from "./components/Current.jsx";
 import Hourly from "./components/Hourly.jsx";
 import Weekly from "./components/Weekly.jsx";
+import Menu from "./components/Menu.jsx";
 
 function App() {
   const [currentWeatherData, setCurrentWeatherData] = useState(null);
@@ -15,6 +16,7 @@ function App() {
   const [weeklyWeatherData, setWeeklyWeatherData] = useState([]);
   const [airQualityData, setAirQualityData] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [query, setQuery] = useState(null);
 
   const weatherService = new WeatherService();
   const airQualityService = new AirQualityService();
@@ -24,12 +26,11 @@ function App() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          console.log("User location:", { latitude, longitude });
           setSelectedLocation({ lat: latitude, long: longitude });
         },
         (error) => {
           console.error("Error getting user location:", error);
-        },
+        }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
@@ -61,25 +62,30 @@ function App() {
   }, [selectedLocation]);
 
   return (
-    <main>
-      <Search
-        setSelectedLocation={setSelectedLocation}
-        setCurrentWeatherData={setCurrentWeatherData}
-        setHourlyWeatherData={setHourlyWeatherData}
-        setWeeklyWeatherData={setWeeklyWeatherData}
-        setAirQualityData={setAirQualityData}
-      />
-      {currentWeatherData && (
-        <Current
-          weatherData={currentWeatherData}
-          airQualityData={airQualityData}
+    <>
+      <main>
+        <Search
+          setSelectedLocation={setSelectedLocation}
+          setCurrentWeatherData={setCurrentWeatherData}
+          setHourlyWeatherData={setHourlyWeatherData}
+          setWeeklyWeatherData={setWeeklyWeatherData}
+          setAirQualityData={setAirQualityData}
+          query={query}
+          setQuery={setQuery}
+          selectedLocation={selectedLocation}
         />
-      )}
-      {hourlyWeatherData.length > 0 && <Hourly data={hourlyWeatherData} />}
-      {weeklyWeatherData.length > 0 && <Weekly data={weeklyWeatherData} />}
-
-      {!currentWeatherData && <img src={preloader} className="preloader" />}
-    </main>
+        {currentWeatherData && (
+          <Current
+            weatherData={currentWeatherData}
+            airQualityData={airQualityData}
+          />
+        )}
+        {hourlyWeatherData.length > 0 && <Hourly data={hourlyWeatherData} />}
+        {weeklyWeatherData.length > 0 && <Weekly data={weeklyWeatherData} />}
+        {!currentWeatherData && <img src={preloader} className="preloader" />}
+      </main>
+      <Menu></Menu>
+    </>
   );
 }
 

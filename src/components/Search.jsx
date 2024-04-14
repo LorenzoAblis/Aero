@@ -12,12 +12,14 @@ const Search = ({
   setHourlyWeatherData,
   setWeeklyWeatherData,
   setAirQualityData,
+  query,
+  setQuery,
+  selectedLocation,
 }) => {
   const searchService = new SearchService();
   const weatherService = new WeatherService();
   const airQualityService = new AirQualityService();
 
-  const [query, setQuery] = useState("");
   const [searchData, setSearchData] = useState([]);
 
   const handleKeyDown = async (event) => {
@@ -42,19 +44,42 @@ const Search = ({
     setAirQualityData(airQualityService.currentAirQualityData);
   };
 
+  const handleBookmark = () => {
+    const storedLocationsJSON = localStorage.getItem("locations");
+    const storedLocations = storedLocationsJSON
+      ? JSON.parse(storedLocationsJSON)
+      : { locations: [] };
+
+    storedLocations.locations.push(selectedLocation);
+
+    const updatedLocationsJSON = JSON.stringify(storedLocations);
+
+    localStorage.setItem("locations", updatedLocationsJSON);
+    console.log(updatedLocationsJSON);
+  };
+
+  const getAddress = () => {
+    if (selectedLocation != null) {
+      return selectedLocation.address || "Current Location";
+    }
+  };
+
   return (
     <section>
-      <div className="search-bar">
-        <i className="bi bi-search"></i>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <button onClick={() => setQuery("")}>
-          <i className="bi bi-x-circle-fill"></i>
-        </button>
+      <div className="navbar">
+        <i className="bi bi-list menu"></i>
+        <div className="search-bar">
+          <i className="bi bi-search"></i>
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <button onClick={() => setQuery("")}>
+            <i className="bi bi-x-circle-fill"></i>
+          </button>
+        </div>
       </div>
       {searchData.length > 0 && (
         <div className="suggestions">
@@ -69,6 +94,12 @@ const Search = ({
           ))}
         </div>
       )}
+      <div className="location">
+        <h1>{getAddress()}</h1>
+        <button onClick={handleBookmark}>
+          <i className="bi bi-bookmark"></i>
+        </button>
+      </div>
     </section>
   );
 };
@@ -79,6 +110,9 @@ Search.propTypes = {
   setHourlyWeatherData: PropTypes.func.isRequired,
   setWeeklyWeatherData: PropTypes.func.isRequired,
   setAirQualityData: PropTypes.func.isRequired,
+  query: PropTypes.string,
+  setQuery: PropTypes.func.isRequired,
+  selectedLocation: PropTypes.object,
 };
 
 export default Search;
