@@ -16,9 +16,10 @@ class WeatherService {
 
       let temp = units.temp;
       let wind = units.wind;
+      let week = Number(units.week) + 1;
 
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&temperature_unit=${temp}&wind_speed_unit=${wind}&precipitation_unit=inch&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&temperature_unit=${temp}&wind_speed_unit=${wind}&precipitation_unit=inch&timezone=auto&forecast_days=${week}`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -27,7 +28,7 @@ class WeatherService {
       this.rawWeatherData = data;
 
       this.formatWeeklyWeatherData();
-      this.formatHourlyWeatherData();
+      this.formatHourlyWeatherData(units.hour);
       this.formatCurrentWeatherData();
     } catch (error) {
       console.error("Error:", error);
@@ -37,7 +38,7 @@ class WeatherService {
   formatWeeklyWeatherData = () => {
     this.weeklyWeatherData = [];
     let minIndex = 1;
-    let maxIndex = minIndex + 5;
+    let maxIndex = minIndex + 15;
 
     while (
       minIndex <= maxIndex &&
@@ -69,12 +70,12 @@ class WeatherService {
     }
   };
 
-  formatHourlyWeatherData = () => {
+  formatHourlyWeatherData = (hour) => {
     this.hourlyWeatherData = [];
     let minIndex =
       this.rawWeatherData["hourly"]["time"].indexOf(this.utils.getDateTime()) +
       1;
-    let maxIndex = minIndex + 7;
+    let maxIndex = minIndex + Number(hour) - 1;
 
     while (
       minIndex <= maxIndex &&

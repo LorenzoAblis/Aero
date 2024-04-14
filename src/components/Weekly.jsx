@@ -39,30 +39,16 @@ const Weekly = ({ data }) => {
     <section>
       <h2>This week</h2>
       <div className="weekly-cards">
-        <div>
-          {data.slice(0, 3).map((hour, index) => (
-            <WeeklyCard
-              key={index + 3}
-              icon={hour.weather_code_icon}
-              day={hour.day}
-              date={hour.date}
-              min={hour.temp_min}
-              max={hour.temp_max}
-            />
-          ))}
-        </div>
-        <div>
-          {data.slice(3).map((hour, index) => (
-            <WeeklyCard
-              key={index + 3}
-              icon={hour.weather_code_icon}
-              day={hour.day}
-              date={hour.date}
-              min={hour.temp_min}
-              max={hour.temp_max}
-            />
-          ))}
-        </div>
+        {data.map((hour, index) => (
+          <WeeklyCard
+            key={index}
+            icon={hour.weather_code_icon}
+            day={hour.day}
+            date={hour.date}
+            min={hour.temp_min}
+            max={hour.temp_max}
+          />
+        ))}
       </div>
     </section>
   );

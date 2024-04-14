@@ -40,6 +40,34 @@ const Menu = ({
         value: "kn",
       },
     ],
+    hour: [
+      {
+        label: "8 hours",
+        value: "8",
+      },
+      {
+        label: "16 hours",
+        value: "16",
+      },
+      {
+        label: "24 hours",
+        value: "24",
+      },
+    ],
+    week: [
+      {
+        label: "7 days",
+        value: "7",
+      },
+      {
+        label: "10 days",
+        value: "10",
+      },
+      {
+        label: "14 days",
+        value: "14",
+      },
+    ],
   };
 
   const [selectedSettings, setSelectedSettings] = useState(() => {

@@ -15,6 +15,8 @@ section {
     justify-content: space-between;
     width: 100%;
     margin-bottom: 3vh;
+    overflow-x: scroll;
+    gap: 1rem;
 
     .hourly-card {
       display: flex;

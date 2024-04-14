@@ -3,71 +3,69 @@
 section {
   display: flex;
   flex-direction: column;
+  width: 75vw;
 
   .weekly-cards {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     margin-bottom: 5vh;
     gap: 1rem;
 
-    div {
-      justify-content: space-between;
+    .weekly-card {
+      flex: calc(15%);
       display: flex;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(178, 178, 178, 0.1);
+      padding: 2rem;
+      border-radius: 2rem;
+      width: 26%;
 
-      .weekly-card {
+      img {
+        width: 8vw;
+      }
+
+      .weekly-card-text {
         display: flex;
-        gap: 2rem;
-        align-items: center;
-        background-color: rgba(178, 178, 178, 0.1);
-        padding: 2rem;
-        border-radius: 2rem;
-        width: 26%;
+        flex-direction: column;
+        gap: 0.5rem;
 
-        img {
-          width: 8vw;
-        }
-
-        .weekly-card-text {
+        .weekly-card-text-header {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
 
-          .weekly-card-text-header {
+          h3 {
+            margin: 0;
+            color: $text;
+          }
+
+          h4 {
+            margin: 0;
+            color: $text-secondary;
+          }
+        }
+
+        .weekly-card-text-details {
+          display: flex;
+          gap: 3rem;
+
+          .weekly-card-text-details-min,
+          .weekly-card-text-details-max {
             display: flex;
             flex-direction: column;
+            justify-content: center;
 
-            h3 {
+            p {
               margin: 0;
               color: $text;
+              font-size: 2rem;
             }
 
             h4 {
               margin: 0;
-              color: $text-secondary;
-            }
-          }
-
-          .weekly-card-text-details {
-            display: flex;
-            gap: 3rem;
-
-            .weekly-card-text-details-min,
-            .weekly-card-text-details-max {
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-
-              p {
-                margin: 0;
-                color: $text;
-                font-size: 2rem;
-              }
-
-              h4 {
-                margin: 0;
-                color: $text;
-                font-weight: 500;
-              }
+              color: $text;
+              font-weight: 500;
             }
           }
         }
