@@ -1,8 +1,9 @@
+import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 
 import "../styles/Menu.scss";
 
-const Menu = () => {
+const Menu = ({ setSelectedLocation }) => {
   const [savedLocations, setSavedLocations] = useState([]);
 
   const fetchSavedLocations = () => {
@@ -16,6 +17,18 @@ const Menu = () => {
   useEffect(() => {
     fetchSavedLocations();
   }, []);
+
+  const handleLocationSelect = (location) => {
+    setSelectedLocation(location);
+  };
+
+  const handleLocationDelete = (index) => {
+    const updatedLocations = [...savedLocations];
+    updatedLocations.splice(index, 1);
+
+    setSavedLocations(updatedLocations);
+    localStorage.setItem("locations", JSON.stringify({ locations: updatedLocations }));
+  };
 
   return (
     <aside>
@@ -32,18 +45,19 @@ const Menu = () => {
         <h1>Saved Locations</h1>
         {savedLocations.map((location, index) => (
           <div className="location" key={index}>
-            <p>{location.address || "Current Location"}</p>
-            <button>
+            <p onClick={() => handleLocationSelect(location)}>{location.address || "Current Location"}</p>
+            <button onClick={() => handleLocationDelete(index)}>
               <i className="bi bi-trash3"></i>
             </button>
           </div>
         ))}
       </section>
-      {/* <section className="settings">
-        <h1>Settings</h1>
-      </section> */}
     </aside>
   );
+};
+
+Menu.propTypes = {
+  setSelectedLocation: PropTypes.func.isRequired,
 };
 
 export default Menu;

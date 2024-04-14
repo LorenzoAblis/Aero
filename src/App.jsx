@@ -84,7 +84,7 @@ function App() {
         {weeklyWeatherData.length > 0 && <Weekly data={weeklyWeatherData} />}
         {!currentWeatherData && <img src={preloader} className="preloader" />}
       </main>
-      <Menu></Menu>
+      <Menu setSelectedLocation={setSelectedLocation} />
     </>
   );
 }

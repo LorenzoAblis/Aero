@@ -1,24 +1,16 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 import SearchService from "../services/SearchService";
-import WeatherService from "../services/WeatherService";
-import AirQualityService from "../services/AirQualityService";
 
 import "../styles/Search.scss";
 
 const Search = ({
   setSelectedLocation,
-  setCurrentWeatherData,
-  setHourlyWeatherData,
-  setWeeklyWeatherData,
-  setAirQualityData,
   query,
   setQuery,
   selectedLocation,
 }) => {
   const searchService = new SearchService();
-  const weatherService = new WeatherService();
-  const airQualityService = new AirQualityService();
 
   const [searchData, setSearchData] = useState([]);
 
@@ -30,33 +22,35 @@ const Search = ({
     }
   };
 
-  const handleLocationSelect = async (location) => {
+  const handleLocationSelect = (location) => {
     setSelectedLocation(location);
     setQuery(location.address);
     setSearchData([]);
-
-    await weatherService.fetchWeatherData(location);
-    await airQualityService.fetchAirQualityData();
-
-    setCurrentWeatherData(weatherService.currentWeatherData);
-    setHourlyWeatherData(weatherService.hourlyWeatherData);
-    setWeeklyWeatherData(weatherService.weeklyWeatherData);
-    setAirQualityData(airQualityService.currentAirQualityData);
   };
 
   const handleBookmark = () => {
+
     const storedLocationsJSON = localStorage.getItem("locations");
     const storedLocations = storedLocationsJSON
       ? JSON.parse(storedLocationsJSON)
       : { locations: [] };
 
-    storedLocations.locations.push(selectedLocation);
+
+    const existingIndex = storedLocations.locations.findIndex(
+      (location) => location.address === selectedLocation.address
+    );
+
+
+    if (existingIndex !== -1) {
+      storedLocations.locations.splice(existingIndex, 1);
+    } else {
+      storedLocations.locations.push(selectedLocation);
+    }
 
     const updatedLocationsJSON = JSON.stringify(storedLocations);
-
     localStorage.setItem("locations", updatedLocationsJSON);
-    console.log(updatedLocationsJSON);
   };
+
 
   const getAddress = () => {
     if (selectedLocation != null) {
@@ -106,10 +100,6 @@ const Search = ({
 
 Search.propTypes = {
   setSelectedLocation: PropTypes.func.isRequired,
-  setCurrentWeatherData: PropTypes.func.isRequired,
-  setHourlyWeatherData: PropTypes.func.isRequired,
-  setWeeklyWeatherData: PropTypes.func.isRequired,
-  setAirQualityData: PropTypes.func.isRequired,
   query: PropTypes.string,
   setQuery: PropTypes.func.isRequired,
   selectedLocation: PropTypes.object,
