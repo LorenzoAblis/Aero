@@ -9,6 +9,7 @@ const Menu = ({
   setSavedLocations,
   fetchSavedLocations,
   showMenu,
+  fetchData,
 }) => {
   const units = {
     temp: [
@@ -82,6 +83,7 @@ const Menu = ({
 
   useEffect(() => {
     localStorage.setItem("settings", JSON.stringify(selectedSettings));
+    fetchData();
   }, [selectedSettings]);
 
   return (
@@ -134,6 +136,7 @@ Menu.propTypes = {
   setSavedLocations: PropTypes.func.isRequired,
   fetchSavedLocations: PropTypes.func.isRequired,
   showMenu: PropTypes.bool.isRequired,
+  fetchData: PropTypes.func.isRequired,
 };
 
 export default Menu;

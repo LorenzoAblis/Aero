@@ -19,6 +19,7 @@ function App() {
   const [query, setQuery] = useState("");
   const [savedLocations, setSavedLocations] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
+  const [settings, setSettings] = useState({});
 
   const weatherService = new WeatherService();
   const airQualityService = new AirQualityService();
@@ -28,7 +29,10 @@ function App() {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setSelectedLocation({ lat: latitude, long: longitude });
+          setSelectedLocation({
+            lat: parseFloat(latitude.toFixed(2)),
+            long: parseFloat(longitude.toFixed(2)),
+          });
         },
         (error) => {
           console.error("Error getting user location:", error);
@@ -42,10 +46,19 @@ function App() {
   const fetchData = async () => {
     try {
       if (!selectedLocation) return;
+
+      const storedSettingsJSON = localStorage.getItem("settings");
+      const storedSettings = storedSettingsJSON
+        ? JSON.parse(storedSettingsJSON)
+        : {};
+
+      setSettings(storedSettings);
+
       await Promise.all([
         airQualityService.fetchAirQualityData(selectedLocation),
-        weatherService.fetchWeatherData(selectedLocation),
+        weatherService.fetchWeatherData(selectedLocation, storedSettings),
       ]);
+
       setCurrentWeatherData(weatherService.currentWeatherData);
       setHourlyWeatherData(weatherService.hourlyWeatherData);
       setWeeklyWeatherData(weatherService.weeklyWeatherData);
@@ -94,6 +107,7 @@ function App() {
           <Current
             weatherData={currentWeatherData}
             airQualityData={airQualityData}
+            settings={settings}
           />
         )}
         {hourlyWeatherData.length > 0 && <Hourly data={hourlyWeatherData} />}
@@ -106,6 +120,7 @@ function App() {
         setSavedLocations={setSavedLocations}
         fetchSavedLocations={fetchSavedLocations}
         showMenu={showMenu}
+        fetchData={fetchData}
       />
     </>
   );

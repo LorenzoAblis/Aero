@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+
 import "../styles/Current.scss";
 import * as weatherIcons from "../assets/weatherIcons";
 
@@ -21,14 +22,16 @@ ConditionCard.propTypes = {
   color: PropTypes.string.isRequired,
 };
 
-const Current = ({ weatherData, airQualityData }) => {
+const Current = ({ weatherData, airQualityData, settings }) => {
   return (
     <section className="current-section">
       <div className="temp">
         <div className="temp-real">
           <img src={weatherIcons[weatherData.weather_code_icon]} alt="" />
           <div className="temp-text">
-            <h1>{weatherData.temp}°</h1>
+            <h1>
+              {weatherData.temp}°{settings.temp == "celsius" ? "C" : "F"}
+            </h1>
             <p>{weatherData.weather_code}</p>
           </div>
         </div>
@@ -64,7 +67,7 @@ const Current = ({ weatherData, airQualityData }) => {
           <ConditionCard
             icon="bi bi-arrow-up-left-circle-fill"
             title="Wind"
-            value={`${weatherData.wind_speed} mph ${weatherData.wind_direction}`}
+            value={`${weatherData.wind_speed} ${settings.wind} ${weatherData.wind_direction}`}
             color="lightgray"
           />
           <ConditionCard
@@ -115,6 +118,7 @@ const Current = ({ weatherData, airQualityData }) => {
 Current.propTypes = {
   weatherData: PropTypes.object.isRequired,
   airQualityData: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
 };
 
 export default Current;

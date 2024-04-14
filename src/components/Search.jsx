@@ -41,8 +41,14 @@ const Search = ({
   };
 
   const handleLocationSelect = (location) => {
-    setSelectedLocation(location);
-    setQuery(location.address);
+    const clampedLocation = {
+      ...location,
+      lat: parseFloat(location.lat.toFixed(2)),
+      long: parseFloat(location.long.toFixed(2)),
+    };
+
+    setSelectedLocation(clampedLocation);
+    setQuery(clampedLocation.address);
     setSearchData([]);
   };
 
@@ -52,14 +58,22 @@ const Search = ({
       ? JSON.parse(storedLocationsJSON)
       : { locations: [] };
 
+    const clampedLocation = {
+      ...selectedLocation,
+      lat: parseFloat(selectedLocation.lat.toFixed(2)),
+      long: parseFloat(selectedLocation.long.toFixed(2)),
+    };
+
     const existingIndex = storedLocations.locations.findIndex(
-      (location) => location.address === selectedLocation.address
+      (location) =>
+        location.lat === clampedLocation.lat &&
+        location.long === clampedLocation.long
     );
 
     if (existingIndex !== -1) {
       storedLocations.locations.splice(existingIndex, 1);
     } else {
-      storedLocations.locations.push(selectedLocation);
+      storedLocations.locations.push(clampedLocation);
     }
 
     const updatedLocationsJSON = JSON.stringify(storedLocations);
