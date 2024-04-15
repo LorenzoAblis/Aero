@@ -6,6 +6,7 @@ const WeeklyCard = ({ icon, day, date, min, max }) => {
   return (
     <div className="weekly-card">
       <img src={weatherIcons[icon]} alt="" />
+
       <div className="weekly-card-text">
         <div className="weekly-card-text-header">
           <h3>{day}</h3>

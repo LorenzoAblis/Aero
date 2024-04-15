@@ -84,32 +84,32 @@ class Utilities {
 
   convertWeatherCode = (weatherCode, format) => {
     const icons = {
-      0: "sunny",
-      1: "cloudy1",
-      2: "cloudy2",
-      3: "cloudy3",
-      45: "cloudy3",
-      48: "cloudy3",
-      51: "rainy4",
-      53: "rainy4",
-      55: "rainy4",
-      56: "rainy4",
-      57: "rainy4",
-      61: "rainy5",
-      63: "rainy6",
-      65: "rainy7",
-      66: "rain5",
-      67: "rainy7",
-      71: "snowy4",
-      73: "snowy5",
-      75: "snowy6",
-      77: "snowy5",
-      80: "rainy5",
-      81: "rainy6",
-      82: "rainy7",
-      85: "snowy-4",
-      86: "snowy-6",
-      95: "thunder",
+      0: "clear",
+      1: "partlyCloudy",
+      2: "partlyCloudy",
+      3: "cloudy",
+      45: "fog",
+      48: "fog",
+      51: "drizzle",
+      53: "drizzle",
+      55: "drizzle",
+      56: "sleet",
+      57: "sleet",
+      61: "rain",
+      63: "rain",
+      65: "rain",
+      66: "sleet",
+      67: "sleet",
+      71: "snow",
+      73: "snow",
+      75: "snow",
+      77: "snow",
+      80: "drizzle",
+      81: "drizzle",
+      82: "sleet",
+      85: "sleet",
+      86: "sleet",
+      95: "thunderstorms",
     };
 
     const textDescriptions = {
@@ -141,10 +141,16 @@ class Utilities {
       95: "Thunderstorm",
     };
 
+    const currentTime = new Date();
+    const isNight = currentTime.getHours() >= 20 || currentTime.getHours() < 6;
+
     if (format === "text") {
       return textDescriptions[weatherCode] || "Unknown";
     } else {
-      return icons[weatherCode] || "bi bi-question-lg";
+      return (
+        `${icons[weatherCode]}${isNight ? "Night" : "Day"}` ||
+        "bi bi-question-lg"
+      );
     }
   };
 }
