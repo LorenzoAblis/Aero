@@ -19,7 +19,9 @@ class WeatherService {
       let week = Number(units.week) + 1;
 
       const response = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&temperature_unit=${temp}&wind_speed_unit=${wind}&precipitation_unit=inch&timezone=auto&forecast_days=${week}`
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&temperature_unit=${temp}&wind_speed_unit=${wind}&precipitation_unit=inch&timezone=auto&forecast_days=${
+          week || 7
+        }`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok");
