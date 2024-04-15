@@ -8,6 +8,7 @@ const Menu = ({
   savedLocations,
   setSavedLocations,
   fetchSavedLocations,
+  setShowMenu,
   showMenu,
   fetchData,
 }) => {
@@ -82,6 +83,7 @@ const Menu = ({
 
   const handleLocationSelect = (location) => {
     setSelectedLocation(location);
+    setShowMenu(false);
   };
 
   const handleLocationDelete = (index) => {
@@ -116,25 +118,18 @@ const Menu = ({
 
   return (
     <aside className={`menu-aside ${showMenu ? "show-menu" : "hide-menu"}`}>
-      <header>
-        <div className="search-bar">
-          <i className="bi bi-search"></i>
-          <input type="text" />
-          <button>
-            <i className="bi bi-x-circle-fill"></i>
-          </button>
-        </div>
-      </header>
       <section className="saved-locations">
         <h1>Saved Locations</h1>
         {savedLocations.map((location, index) => (
-          <div className="location" key={index}>
-            <p onClick={() => handleLocationSelect(location)}>
-              {location.address || "Current Location"}
-            </p>
-            <button onClick={() => handleLocationDelete(index)}>
-              <i className="bi bi-trash3"></i>
-            </button>
+          <div key={index}>
+            <div className="location" key={index}>
+              <p onClick={() => handleLocationSelect(location)}>
+                {location.address || "Current Location"}
+              </p>
+              <button onClick={() => handleLocationDelete(index)}>
+                <i className="bi bi-trash3"></i>
+              </button>
+            </div>
           </div>
         ))}
       </section>
@@ -163,6 +158,7 @@ Menu.propTypes = {
   savedLocations: PropTypes.array.isRequired,
   setSavedLocations: PropTypes.func.isRequired,
   fetchSavedLocations: PropTypes.func.isRequired,
+  setShowMenu: PropTypes.func.isRequired,
   showMenu: PropTypes.bool.isRequired,
   fetchData: PropTypes.func.isRequired,
 };

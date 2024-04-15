@@ -51,41 +51,6 @@
   flex-direction: column;
   overflow-y: scroll;
 
-  .search-bar {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    width: 80%;
-    background-color: rgba(178, 178, 178, 0.3);
-    border-radius: 3rem;
-    color: $text;
-    padding: 0.5rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    margin: auto;
-    margin-top: 3vh;
-    margin-bottom: 3vh;
-
-    input {
-      color: $text;
-      width: 70%;
-      background-color: transparent;
-      border: none;
-      outline: none;
-    }
-
-    button {
-      background-color: transparent;
-      border: none;
-      color: $text-secondary;
-      transition: color 0.5s;
-
-      &:hover {
-        color: $text;
-      }
-    }
-  }
-
   section {
     width: 70%;
     margin-bottom: 2.5vh;
@@ -113,6 +78,10 @@
         font-size: 1.25rem;
       }
     }
+  }
+
+  .saved-locations {
+    margin-top: 5vh;
   }
 
   select {

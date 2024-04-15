@@ -119,6 +119,7 @@ function App() {
         savedLocations={savedLocations}
         setSavedLocations={setSavedLocations}
         fetchSavedLocations={fetchSavedLocations}
+        setShowMenu={setShowMenu}
         showMenu={showMenu}
         fetchData={fetchData}
       />
