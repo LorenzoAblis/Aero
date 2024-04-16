@@ -41,7 +41,7 @@ function App() {
         },
         (error) => {
           console.error("Error getting user location:", error);
-        },
+        }
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
@@ -140,7 +140,11 @@ function App() {
           showMenu={showMenu}
           fetchData={fetchData}
         />
-        <HourView showHourView={showHourView} selectedHour={selectedHour} />
+        <HourView
+          showHourView={showHourView}
+          selectedHour={selectedHour}
+          settings={settings}
+        />
       </main>
     </>
   );
