@@ -30,10 +30,10 @@ const Hourly = ({ data, setShowHourView, setSelectedHour }) => {
       <div className="hourly-cards">
         {data.map((hour, index) => (
           <HourlyCard
-            setShowHourView={setShowHourView}
-            setSelectedHour={setSelectedHour}
             key={index}
             hour={hour}
+            setShowHourView={setShowHourView}
+            setSelectedHour={setSelectedHour}
           />
         ))}
       </div>

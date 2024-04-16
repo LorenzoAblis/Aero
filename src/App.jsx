@@ -41,7 +41,7 @@ function App() {
         },
         (error) => {
           console.error("Error getting user location:", error);
-        }
+        },
       );
     } else {
       console.error("Geolocation is not supported by this browser.");
@@ -82,9 +82,15 @@ function App() {
   };
 
   const handleOutsideClick = (event) => {
-    if (!event.target.closest(".menu")) {
-      setShowMenu(false);
-      setShowHourView(false);
+    if (showMenu) {
+      if (!event.target.closest(".menu")) {
+        setShowMenu(false);
+      }
+    }
+    if (showHourView) {
+      if (!event.target.closest(".apple")) {
+        setShowHourView(false);
+      }
     }
   };
 
@@ -125,17 +131,17 @@ function App() {
         )}
         {weeklyWeatherData.length > 0 && <Weekly data={weeklyWeatherData} />}
         {!currentWeatherData && <img src={preloader} className="preloader" />}
+        <Menu
+          setSelectedLocation={setSelectedLocation}
+          savedLocations={savedLocations}
+          setSavedLocations={setSavedLocations}
+          fetchSavedLocations={fetchSavedLocations}
+          setShowMenu={setShowMenu}
+          showMenu={showMenu}
+          fetchData={fetchData}
+        />
+        <HourView showHourView={showHourView} selectedHour={selectedHour} />
       </main>
-      <Menu
-        setSelectedLocation={setSelectedLocation}
-        savedLocations={savedLocations}
-        setSavedLocations={setSavedLocations}
-        fetchSavedLocations={fetchSavedLocations}
-        setShowMenu={setShowMenu}
-        showMenu={showMenu}
-        fetchData={fetchData}
-      />
-      <HourView showHourView={showHourView} selectedHour={selectedHour} />
     </>
   );
 }
