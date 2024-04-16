@@ -2,33 +2,38 @@ import PropTypes from "prop-types";
 import "../styles/Hourly.scss";
 import * as weatherIcons from "../assets/weatherIcons";
 
-const HourlyCard = ({ time, icon, value }) => {
+const HourlyCard = ({ hour, setShowHourView, setSelectedHour }) => {
+  const handleClick = () => {
+    setSelectedHour(hour);
+    setShowHourView(true);
+  };
+
   return (
-    <div className="hourly-card">
-      <h3>{time}</h3>
-      <img src={weatherIcons[icon]} alt="" />
-      <p>{value}</p>
+    <div className="hourly-card" onClick={handleClick}>
+      <h3>{hour.time}</h3>
+      <img src={weatherIcons[hour.weather_code_icon]} alt="" />
+      <p>{`${hour.temp}°`}</p>
     </div>
   );
 };
 
 HourlyCard.propTypes = {
-  time: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  hour: PropTypes.object.isRequired,
+  setShowHourView: PropTypes.func.isRequired,
+  setSelectedHour: PropTypes.func.isRequired,
 };
 
-const Hourly = ({ data }) => {
+const Hourly = ({ data, setShowHourView, setSelectedHour }) => {
   return (
     <section>
       <h2>Hourly</h2>
       <div className="hourly-cards">
         {data.map((hour, index) => (
           <HourlyCard
+            setShowHourView={setShowHourView}
+            setSelectedHour={setSelectedHour}
             key={index}
-            time={hour.time}
-            icon={hour.weather_code_icon}
-            value={`${hour.temp}°`}
+            hour={hour}
           />
         ))}
       </div>
@@ -38,6 +43,8 @@ const Hourly = ({ data }) => {
 
 Hourly.propTypes = {
   data: PropTypes.array.isRequired,
+  setShowHourView: PropTypes.func.isRequired,
+  setSelectedHour: PropTypes.func.isRequired,
 };
 
 export default Hourly;

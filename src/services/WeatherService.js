@@ -90,7 +90,20 @@ class WeatherService {
         ),
         weather_code_icon: this.utils.convertWeatherCode(
           this.rawWeatherData["hourly"]["weather_code"][minIndex],
-          "icon"
+          "icon",
+          parseInt(
+            this.rawWeatherData["hourly"]["time"][minIndex]
+              .split("T")[1]
+              .split(":")[0]
+          ),
+          this.utils.convertTimeFormat(
+            this.rawWeatherData["daily"]["sunrise"][0],
+            "24-hour"
+          ),
+          this.utils.convertTimeFormat(
+            this.rawWeatherData["daily"]["sunset"][0],
+            "24-hour"
+          )
         ),
         temp: Math.round(
           this.rawWeatherData["hourly"]["temperature_2m"][minIndex]

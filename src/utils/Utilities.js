@@ -57,6 +57,8 @@ class Utilities {
       });
     } else if (format === "day") {
       return dateTime.toLocaleDateString("en-US", { weekday: "short" });
+    } else if (format === "24-hour") {
+      return dateTime.getHours();
     } else if (format === "date") {
       const dayNumber = dateTime.getDate();
       const month = dateTime.toLocaleDateString("en-US", { month: "long" });
@@ -82,7 +84,7 @@ class Utilities {
     }
   };
 
-  convertWeatherCode = (weatherCode, format) => {
+  convertWeatherCode = (weatherCode, format, hour, sunrise, sunset) => {
     const icons = {
       0: "clear",
       1: "partlyCloudy",
@@ -141,8 +143,7 @@ class Utilities {
       95: "Thunderstorm",
     };
 
-    const currentTime = new Date();
-    const isNight = currentTime.getHours() >= 20 || currentTime.getHours() < 6;
+    const isNight = hour >= sunset || hour < sunrise;
 
     if (format === "text") {
       return textDescriptions[weatherCode] || "Unknown";

@@ -9,6 +9,7 @@ import Current from "./components/Current.jsx";
 import Hourly from "./components/Hourly.jsx";
 import Weekly from "./components/Weekly.jsx";
 import Menu from "./components/Menu.jsx";
+import HourView from "./components/HourView.jsx";
 
 function App() {
   const [currentWeatherData, setCurrentWeatherData] = useState(null);
@@ -20,6 +21,10 @@ function App() {
   const [savedLocations, setSavedLocations] = useState([]);
   const [showMenu, setShowMenu] = useState(false);
   const [settings, setSettings] = useState({});
+  const [selectedHour, setSelectedHour] = useState({});
+  const [showHourView, setShowHourView] = useState(false);
+  const [selectedDay, setSelectedDay] = useState({});
+  const [showDayView, setShowDayView] = useState(false);
 
   const weatherService = new WeatherService();
   const airQualityService = new AirQualityService();
@@ -79,6 +84,7 @@ function App() {
   const handleOutsideClick = (event) => {
     if (!event.target.closest(".menu")) {
       setShowMenu(false);
+      setShowHourView(false);
     }
   };
 
@@ -110,7 +116,13 @@ function App() {
             settings={settings}
           />
         )}
-        {hourlyWeatherData.length > 0 && <Hourly data={hourlyWeatherData} />}
+        {hourlyWeatherData.length > 0 && (
+          <Hourly
+            data={hourlyWeatherData}
+            setShowHourView={setShowHourView}
+            setSelectedHour={setSelectedHour}
+          />
+        )}
         {weeklyWeatherData.length > 0 && <Weekly data={weeklyWeatherData} />}
         {!currentWeatherData && <img src={preloader} className="preloader" />}
       </main>
@@ -123,6 +135,7 @@ function App() {
         showMenu={showMenu}
         fetchData={fetchData}
       />
+      <HourView showHourView={showHourView} selectedHour={selectedHour} />
     </>
   );
 }
