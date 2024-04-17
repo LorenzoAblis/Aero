@@ -82,15 +82,12 @@ function App() {
   };
 
   const handleOutsideClick = (event) => {
-    if (showMenu) {
-      if (!event.target.closest(".menu")) {
-        setShowMenu(false);
-      }
+    if (showMenu && !event.target.closest(".menu-aside")) {
+      setShowMenu(false);
     }
-    if (showHourView) {
-      if (!event.target.closest(".apple")) {
-        setShowHourView(false);
-      }
+
+    if (showHourView && !event.target.closest(".hour-card")) {
+      setShowHourView(false);
     }
   };
 
@@ -141,7 +138,9 @@ function App() {
           fetchData={fetchData}
         />
         <HourView
+          data={hourlyWeatherData}
           showHourView={showHourView}
+          setSelectedHour={setSelectedHour}
           selectedHour={selectedHour}
           settings={settings}
         />

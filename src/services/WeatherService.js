@@ -29,8 +29,6 @@ class WeatherService {
       const data = await response.json();
       this.rawWeatherData = data;
 
-      console.log(apiURL);
-
       this.formatWeeklyWeatherData();
       this.formatHourlyWeatherData(units.hour);
       this.formatCurrentWeatherData();
@@ -127,6 +125,9 @@ class WeatherService {
           this.rawWeatherData["hourly"]["wind_direction_10m"][minIndex]
         ),
         uv_index: this.rawWeatherData["hourly"]["uv_index"][minIndex],
+        uv_class: this.utils.getUvClass(
+          this.rawWeatherData["hourly"]["uv_index"][minIndex]
+        ),
       };
 
       this.hourlyWeatherData.push(HourData);
