@@ -2,9 +2,22 @@ import PropTypes from "prop-types";
 import "../styles/Weekly.scss";
 import * as weatherIcons from "../assets/weatherIcons";
 
-const WeeklyCard = ({ icon, day, date, min, max }) => {
+const WeeklyCard = ({
+  icon,
+  date,
+  min,
+  max,
+  day,
+  setSelectedDay,
+  setShowDayView,
+}) => {
+  const handleClick = () => {
+    setSelectedDay(day);
+    setShowDayView(true);
+    console.log(day);
+  };
   return (
-    <div className="weekly-card">
+    <div className="weekly-card" onClick={handleClick}>
       <img src={weatherIcons[icon]} alt="" />
 
       <div className="weekly-card-text">
@@ -29,13 +42,15 @@ const WeeklyCard = ({ icon, day, date, min, max }) => {
 
 WeeklyCard.propTypes = {
   icon: PropTypes.string.isRequired,
-  day: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
+  day: PropTypes.object,
+  setSelectedDay: PropTypes.func.isRequired,
+  setShowDayView: PropTypes.func.isRequired,
 };
 
-const Weekly = ({ data }) => {
+const Weekly = ({ data, selectedDay, setSelectedDay, setShowDayView }) => {
   return (
     <section>
       <h2>This week</h2>
@@ -44,10 +59,12 @@ const Weekly = ({ data }) => {
           <WeeklyCard
             key={index}
             icon={hour.weather_code_icon}
-            day={hour.day}
             date={hour.date}
             min={hour.temp_min}
             max={hour.temp_max}
+            day={selectedDay}
+            setSelectedDay={setSelectedDay}
+            setShowDayView={setShowDayView}
           />
         ))}
       </div>
@@ -57,6 +74,9 @@ const Weekly = ({ data }) => {
 
 Weekly.propTypes = {
   data: PropTypes.array.isRequired,
+  selectedDay: PropTypes.object,
+  setSelectedDay: PropTypes.func.isRequired,
+  setShowDayView: PropTypes.func.isRequired,
 };
 
 export default Weekly;

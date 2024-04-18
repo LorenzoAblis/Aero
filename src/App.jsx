@@ -10,6 +10,7 @@ import Hourly from "./components/Hourly.jsx";
 import Weekly from "./components/Weekly.jsx";
 import Menu from "./components/Menu.jsx";
 import HourView from "./components/HourView.jsx";
+import DayView from "./components/DayView.jsx";
 
 function App() {
   const [currentWeatherData, setCurrentWeatherData] = useState(null);
@@ -89,6 +90,10 @@ function App() {
     if (showHourView && !event.target.closest(".hour-card")) {
       setShowHourView(false);
     }
+
+    if (showDayView && !event.target.closest(".day-card")) {
+      setShowDayView(false);
+    }
   };
 
   useEffect(() => {
@@ -126,7 +131,14 @@ function App() {
             setSelectedHour={setSelectedHour}
           />
         )}
-        {weeklyWeatherData.length > 0 && <Weekly data={weeklyWeatherData} />}
+        {weeklyWeatherData.length > 0 && (
+          <Weekly
+            data={weeklyWeatherData}
+            day={selectedDay}
+            setShowDayView={setShowDayView}
+            setSelectedDay={setSelectedDay}
+          />
+        )}
         {!currentWeatherData && <img src={preloader} className="preloader" />}
         <Menu
           setSelectedLocation={setSelectedLocation}
@@ -142,6 +154,13 @@ function App() {
           showHourView={showHourView}
           setSelectedHour={setSelectedHour}
           selectedHour={selectedHour}
+          settings={settings}
+        />
+        <DayView
+          data={hourlyWeatherData}
+          showDayView={showDayView}
+          setSelectedDay={setSelectedDay}
+          selectedDay={selectedDay}
           settings={settings}
         />
       </main>

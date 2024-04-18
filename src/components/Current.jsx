@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import "../styles/Current.scss";
 import * as weatherIcons from "../assets/weatherIcons";
 
-const ConditionCard = ({ icon, title, value, color }) => {
+const ConditionCard = ({ title, icon, value, color }) => {
   return (
-    <div className="conditions-card" style={{ color: `${color}` }}>
-      <i className={icon}></i>
+    <div className="condition-card">
+      <i className={icon} style={{ color: `${color}` }} />
       <div className="conditions-card-text">
         <h3>{title}</h3>
         <p>{value}</p>
@@ -16,11 +16,13 @@ const ConditionCard = ({ icon, title, value, color }) => {
 };
 
 ConditionCard.propTypes = {
-  icon: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   color: PropTypes.string.isRequired,
 };
+
+export { ConditionCard };
 
 const Current = ({ weatherData, airQualityData, settings }) => {
   return (

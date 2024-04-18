@@ -1,0 +1,27 @@
+@import "../App.scss";
+
+.day-aside {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  position: fixed;
+  left: 0%;
+  top: 0%;
+  background-color: rgba(0, 0, 0, 0.75);
+  opacity: 1;
+  backdrop-filter: blur(5px);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  .day-card {
+    display: flex;
+    flex-direction: column;
+    width: 45vw;
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    background-color: $background;
+    box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.75) inset;
+  }
+}
