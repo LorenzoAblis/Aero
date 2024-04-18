@@ -57,6 +57,8 @@ class Utilities {
       });
     } else if (format === "day") {
       return dateTime.toLocaleDateString("en-US", { weekday: "short" });
+    } else if (format === "dayLong") {
+      return dateTime.toLocaleDateString("en-US", { weekday: "long" });
     } else if (format === "24-hour") {
       return dateTime.getHours();
     } else if (format === "date") {

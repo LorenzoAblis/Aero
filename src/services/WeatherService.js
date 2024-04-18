@@ -18,7 +18,7 @@ class WeatherService {
       let wind = units.wind;
       let week = (Number(units.week) || 7) + 1;
 
-      let apiURL = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&temperature_unit=${temp}&wind_speed_unit=${wind}&precipitation_unit=inch&timezone=auto&forecast_days=${
+      let apiURL = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,uv_index&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,sunrise,sunset,uv_index_max,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant&temperature_unit=${temp}&wind_speed_unit=${wind}&precipitation_unit=inch&timezone=auto&forecast_days=${
         week || 7
       }`;
 
@@ -51,6 +51,10 @@ class WeatherService {
           this.rawWeatherData["daily"]["time"][minIndex],
           "day"
         ),
+        dayLong: this.utils.convertTimeFormat(
+          this.rawWeatherData["daily"]["time"][minIndex],
+          "dayLong"
+        ),
         date: this.utils.convertTimeFormat(
           this.rawWeatherData["daily"]["time"][minIndex],
           "date"
@@ -65,6 +69,37 @@ class WeatherService {
           this.rawWeatherData["daily"]["weather_code"][minIndex],
           "logo"
         ),
+        feelslike_min: Math.round(
+          this.rawWeatherData["daily"]["apparent_temperature_min"][minIndex]
+        ),
+        feelslike_max: Math.round(
+          this.rawWeatherData["daily"]["apparent_temperature_max"][minIndex]
+        ),
+        sunrise: this.utils.convertTimeFormat(
+          this.rawWeatherData["daily"]["sunrise"][minIndex],
+          "hh:mm:a"
+        ),
+        sunset: this.utils.convertTimeFormat(
+          this.rawWeatherData["daily"]["sunset"][minIndex],
+          "hh:mm:a"
+        ),
+        uv: this.rawWeatherData["daily"]["uv_index_max"][minIndex],
+        uvClass: this.utils.getUvClass(
+          this.rawWeatherData["daily"]["uv_index_max"][minIndex]
+        ),
+        wind_speed: Math.round(
+          this.rawWeatherData["daily"]["wind_speed_10m_max"][minIndex]
+        ),
+        wind_gusts: Math.round(
+          this.rawWeatherData["daily"]["wind_gusts_10m_max"][minIndex]
+        ),
+        wind_direction: this.utils.degreesToDirection(
+          this.rawWeatherData["daily"]["wind_direction_10m_dominant"][minIndex]
+        ),
+        precip:
+          this.rawWeatherData["daily"]["precipitation_probability_max"][
+            minIndex
+          ],
       };
 
       this.weeklyWeatherData.push(DayData);

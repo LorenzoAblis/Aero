@@ -18,10 +18,121 @@
   .day-card {
     display: flex;
     flex-direction: column;
-    width: 45vw;
+    width: 50vw;
     padding: 1.5rem;
     border-radius: 1.5rem;
     background-color: $background;
     box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.75) inset;
+
+    .content {
+      display: flex;
+      flex-direction: row;
+      gap: 5rem;
+
+      .temp {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 50%;
+
+        h1 {
+          color: $secondary;
+          font-size: 2.5rem;
+          margin: 0;
+        }
+
+        h2 {
+          color: $text-secondary;
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin: 0;
+        }
+
+        img {
+          width: 20vh;
+        }
+
+        h4 {
+          margin: 0;
+          color: white;
+          font-size: 2.5rem;
+        }
+
+        span {
+          color: rgba(255, 120, 120, 0.5);
+          font-size: 1.25rem;
+          margin: 0;
+        }
+      }
+
+      .conditions {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 2vh;
+
+        .condition-card {
+          display: flex;
+          flex-direction: row;
+          justify-content: left;
+          width: 50%;
+          text-align: left;
+          font-size: 1.25rem;
+
+          i {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+          }
+
+          div {
+            h3 {
+              margin: 0;
+              font-weight: 500;
+              color: $text-secondary;
+            }
+
+            p {
+              margin: 0;
+              font-weight: 600;
+              color: white;
+            }
+          }
+        }
+      }
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 100%;
+      margin-top: 3vh;
+      overflow-x: scroll;
+      gap: 0.5rem;
+
+      button {
+        color: $text-secondary;
+        background-color: rgba(0, 0, 0, 0.45);
+        border: none;
+        padding: 0.5rem;
+        border-radius: 1rem;
+        font-size: 1rem;
+        min-width: 10%;
+        transition: all 0.25s;
+        box-shadow: 0 0 0.25rem rgba(0, 0, 0, 0.45);
+
+        &:hover {
+          background-color: $secondary;
+          color: white;
+          opacity: 0.5;
+        }
+      }
+
+      .filled {
+        background-color: $secondary;
+        color: white;
+      }
+    }
   }
 }

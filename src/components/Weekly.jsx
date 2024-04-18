@@ -14,7 +14,6 @@ const WeeklyCard = ({
   const handleClick = () => {
     setSelectedDay(day);
     setShowDayView(true);
-    console.log(day);
   };
   return (
     <div className="weekly-card" onClick={handleClick}>
@@ -22,7 +21,7 @@ const WeeklyCard = ({
 
       <div className="weekly-card-text">
         <div className="weekly-card-text-header">
-          <h3>{day}</h3>
+          <h3>{day.day}</h3>
           <h4>{date}</h4>
         </div>
         <div className="weekly-card-text-details">
@@ -62,7 +61,7 @@ const Weekly = ({ data, selectedDay, setSelectedDay, setShowDayView }) => {
             date={hour.date}
             min={hour.temp_min}
             max={hour.temp_max}
-            day={selectedDay}
+            day={hour}
             setSelectedDay={setSelectedDay}
             setShowDayView={setShowDayView}
           />

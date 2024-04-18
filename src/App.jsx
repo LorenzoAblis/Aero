@@ -157,7 +157,7 @@ function App() {
           settings={settings}
         />
         <DayView
-          data={hourlyWeatherData}
+          data={weeklyWeatherData}
           showDayView={showDayView}
           setSelectedDay={setSelectedDay}
           selectedDay={selectedDay}
